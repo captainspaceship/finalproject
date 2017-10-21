@@ -43,7 +43,8 @@ testUrl <- "http://d396qusza40orc.cloudfront.net/predmachlearn/pml-testing.csv"
 training <- read.csv(url(trainUrl), na.strings=c("NA","#DIV/0!",""))
 testing <- read.csv(url(testUrl), na.strings=c("NA","#DIV/0!",""))
 ```  
-Then we partioning the training set into two.
+The training dataset has 19622 observations and 160 variables, and the testing data set contains 20 observations and the same variables as the training set. We are trying to predict the outcome of the variable classe in the training set.
+Then we partioning the training set into a training set (train, 60%) for prediction and a validation set (valid 40%) to compute the out-of-sample errors.
 ```{r, cache = T}
 inTrain <- createDataPartition(training$classe, p=0.6, list=FALSE)
 myTraining <- training[inTrain, ]
@@ -234,6 +235,7 @@ plot(gbmFit1, ylim=c(0.9, 1))
 
 ```
 ### Predicting results on the test data
+
 Random Forests gave an Accuracy in the myTesting dataset of 99.89%, which was more accurate that what I got from the Decision Trees or GBM. The expected out-of-sample error is 100-99.89 = 0.11%.
 ```{r, cache = T}
 predictionB2 <- predict(modFitB1, testing, type = "class")
@@ -245,14 +247,4 @@ predictionB2
 ##  B  A  B  A  A  E  D  B  A  A  B  C  B  A  E  E  A  B  B  B 
 ## Levels: A B C D E
 ```
-
-```{r, cache = T}
-pml_write_files = function(x){
-    n = length(x)
-    for(i in 1:n){
-        filename = paste0("problem_id_",i,".txt")
-        write.table(x[i],file=filename,quote=FALSE,row.names=FALSE,col.names=FALSE)
-    }
-}
-
-```
+them completed the course project.
