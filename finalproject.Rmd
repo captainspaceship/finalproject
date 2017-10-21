@@ -40,7 +40,10 @@ testing <- read.csv(url(testUrl), na.strings=c("NA","#DIV/0!",""))
 ```
 
 ```{r cars}
-summary(cars)
+inTrain <- createDataPartition(training$classe, p=0.6, list=FALSE)
+myTraining <- training[inTrain, ]
+myTesting <- training[-inTrain, ]
+dim(myTraining); dim(myTesting)
 ```
 
 ## Including Plots
